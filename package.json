@@ -1,0 +1,24 @@
+{
+  "name": "slopify",
+  "version": "1.0.0",
+  "description": "An app which uses Spotify's API to show a user's listening data.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raf-swiderski/Slopify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raf-swiderski/Slopify/issues"
+  },
+  "homepage": "https://github.com/raf-swiderski/Slopify#readme",
+  "dependencies": {
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
+  }
+}
