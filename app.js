@@ -2,6 +2,7 @@ const express = require('express')
 require('dotenv').config()
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
+const axios = require('axios');
 var querystring = require('querystring');
 
 const app = express()
@@ -50,14 +51,37 @@ app.get('/login', function(req, res) {
     }));
 });
 
-app.get('/callback', function(req, res) {
-
-  var code = req.query.code || null;
-  var state = req.query.state || null;
 
 
-  
+app.get('/callback', (req, res) => {
+  const code = req.query.code || null;
+
+  axios({
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    data: querystring.stringify({
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: redirect_uri
+    }),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${new Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`,
+    },
+  })
+    .then(response => {
+      if (response.status === 200) {
+        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+      } else {
+        res.send(response);
+      }
+    })
+    .catch(error => {
+      res.send(error);
+    });
 });
+  
+
 
 
 
