@@ -71,9 +71,24 @@ app.get('/callback', (req, res) => {
   })
     .then(response => {
       if (response.status === 200) {
-        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+        
+        const access_token = response.data.access_token
+        const refresh_token = response.data.refresh_token
+
+        //redirect to front end
+        //pass along tokens in query params
+
+        const queryParams = querystring.stringify({
+          access_token,
+          refresh_token
+        })
+
+        res.redirect(`http://localhost:8888/?${queryParams}`)
+
       } else {
-        res.send(response);
+        res.redirect(`/?${querystring.stringify({
+          error: 'invalid token'
+        })}`);
       }
     })
     .catch(error => {
@@ -81,7 +96,28 @@ app.get('/callback', (req, res) => {
     });
 });
   
+app.get('/refresh_token', (req, res) => {
+  const { refresh_token } = req.query;
 
+  axios({
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    data: querystring.stringify({
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${new Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`,
+    },
+  })
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(error => {
+      res.send(error);
+    });
+});
 
 
 
