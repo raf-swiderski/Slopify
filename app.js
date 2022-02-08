@@ -1,9 +1,14 @@
 const express = require('express')
+
+//node modules
 require('dotenv').config()
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
-const axios = require('axios');
 var querystring = require('querystring');
+const axios = require('axios');
+
+//local modules
+var generateRandomString = require('./generateRandomString')
 
 const app = express()
 const port = 8888
@@ -11,28 +16,20 @@ const port = 8888
 var client_id = process.env.CLIENT_ID;
 var client_secret = process.env.CLIENT_SECRET;
 var redirect_uri = process.env.REDIRECT_URI;
+var stateKey = 'spotify_auth_state';
 
-app.use(express.static(__dirname + '/static'))
+app.use(express.static('static'))
    .use(cors())
    .use(cookieParser())
 
-
-
 app.get('/', (req, res) => {
-  res.send('Tim Cook')
+  res.sendFile('static/index.html', {root: __dirname })
 })
 
-var generateRandomString = function(length) {
-  var text = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+app.get('/home', (req, res) => {
+  res.sendFile('static/home.html', {root: __dirname })
+})
 
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-var stateKey = 'spotify_auth_state';
 
 app.get('/login', function(req, res) {
 
@@ -83,7 +80,7 @@ app.get('/callback', (req, res) => {
           refresh_token
         })
 
-        res.redirect(`http://localhost:8888/?${queryParams}`)
+        res.redirect(`http://localhost:8888/home?${queryParams}`)
 
       } else {
         res.redirect(`/?${querystring.stringify({
@@ -96,6 +93,8 @@ app.get('/callback', (req, res) => {
     });
 });
   
+
+
 app.get('/refresh_token', (req, res) => {
   const { refresh_token } = req.query;
 
