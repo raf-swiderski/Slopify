@@ -12,7 +12,7 @@ selecter.addEventListener('click', getData)
 function getData() {
     
     var artistsOrTracks = document.getElementById('selecter').value
-    var timeRange = "long_term"
+    var timeRange = document.getElementById('time_range').value
 
     var url = `https://api.spotify.com/v1/me/top/${artistsOrTracks}?time_range=${timeRange}&limit=50&offset=0`
 
@@ -49,7 +49,7 @@ function displayArtists(response) {
     console.log(response.items)
     var display = []
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < items.length; i++) {
 
         let name = items[i].name;
         let image = items[i].images[1].url
@@ -71,7 +71,7 @@ function displayTracks(response) {
     var items = response.items;
     var display = []
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < items.length; i++) {
 
         let trackName = items[i].name;
         let artistName = items[i].artists[0].name
