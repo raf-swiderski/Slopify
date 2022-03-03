@@ -13,8 +13,9 @@ function getData() {
     
     var artistsOrTracks = document.getElementById('selecter').value
     var timeRange = document.getElementById('time_range').value
+    var limit = document.getElementById('limit').value
 
-    var url = `https://api.spotify.com/v1/me/top/${artistsOrTracks}?time_range=${timeRange}&limit=50&offset=0`
+    var url = `https://api.spotify.com/v1/me/top/${artistsOrTracks}?time_range=${timeRange}&limit=${limit}&offset=0`
 
     var data = {
         headers: {
