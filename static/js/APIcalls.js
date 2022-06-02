@@ -57,6 +57,7 @@ function displayArtists(response) {
         let rank = i + 1 
 
         display.push(`
+            <br>
             <img src=${image} >
             <p>${rank}. ${name}</p>
             <br>
