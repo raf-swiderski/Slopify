@@ -57,9 +57,9 @@ function displayArtists(response) {
         let rank = i + 1 
 
         display.push(`
+            <img src=${image} >
             <p>${rank}. ${name}</p>
             <br>
-            <img src=${image} >
         `)
     }
     topArtists.innerHTML = display.join("")
