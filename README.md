@@ -1,4 +1,4 @@
- <h1 align="center">Slopify</h1>
+ <h1 align="center">Spotify App</h1>
 
 An app which uses Spotify's API to show a user's listening data over varying periods of time. 
 
